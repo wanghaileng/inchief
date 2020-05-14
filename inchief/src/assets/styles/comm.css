@@ -1,0 +1,113 @@
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+    margin : 0;
+    padding: 0
+}
+
+html,
+body {
+    height: 100%;
+}
+
+ul,
+ol,
+li {
+    list-style-type: none
+}
+
+a {
+    color          : #666;
+    text-decoration: none;
+    outline        : 0
+}
+
+a:hover {
+    text-decoration: none
+}
+
+/* 鼠标滑过高亮显示 */
+.el-table tbody tr:hover>td {
+    background-color: #223757 !important
+}
+
+/* 表格线 */
+.el-table--border,
+.el-table--group {
+    border-color: rgba(44, 128, 255, 1);
+}
+
+.el-table--border:after,
+.el-table--group:after,
+.el-table:before {
+    background-color: #1f3947;
+}
+
+.el-table td,
+.el-table--border th,
+.el-table th.is-leaf {
+    border-bottom-color: #1f3947;
+}
+
+/* 修改表头背景颜色 */
+.el-table th {
+    background: #1F2F47;
+
+}
+
+.el-table tr {
+    background: #223757;
+}
+
+
+.el-table--border td,
+.el-table--border th {
+    border-right: rgba(44, 128, 255, 1);
+}
+
+/*  斑马纹表格背景 */
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+    background: #1F2F47;
+}
+
+.el-table::before {
+    border-bottom: 0px solid blue;
+    height       : 0px
+}
+
+/* 修改表头字体颜色 */
+.el-table thead {
+    color      : #3d7cb1;
+    font-weight: 500;
+}
+
+/* 修改表字体颜色 */
+.el-table {
+    color    : #fff;
+    background-color: #223757;
+    font-size: 14px;
+}
+
+.el-table td {
+    padding: 5px 0;
+}
+
+.el-table thead th {
+    padding: 8px 0;
+}
