@@ -35,7 +35,7 @@
               <el-tab-pane label="月" name="month"></el-tab-pane>
             </el-tabs>
           </div>
-          <div class="water_charts" ref="water_charts" style="margin:auto;width:85%; height:80%;"></div>
+          <div class="water_charts" ref="water_charts" style="margin:auto;width:80%; height:80%;"></div>
         </div>
       </div>
       <div class="main">
@@ -223,13 +223,14 @@ export default {
       let options = {
         xAxis: {
           data: this.dataAxis,
+          axisTick: {
+            show: false
+          },
           axisLabel: {
-            // textStyle: {
             color: "#fff",
             interval: 0,
             rotate: 30,
             fontsize: 12
-            // }
           }
         },
         yAxis: {
@@ -277,12 +278,16 @@ export default {
       let myCharts = this.$echarts.init(this.$refs.water_charts);
       myCharts.clear();
       let options = {
+        grid: { left: "0", right: "2%", bottom: "10%", containLabel: true },
         yAxis: {
           data: this.dataAxis,
           axisLine: {
-            show: false
+            show: true
           },
           axisTick: {
+            show: false
+          },
+          splitLine: {
             show: false
           },
           axisLabel: {
@@ -292,7 +297,7 @@ export default {
         },
         xAxis: {
           axisLine: {
-            show: false
+            show: true
           },
           axisTick: {
             show: false
@@ -303,11 +308,6 @@ export default {
             }
           }
         },
-        dataZoom: [
-          {
-            type: "inside"
-          }
-        ],
         series: [
           {
             type: "bar",

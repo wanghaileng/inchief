@@ -12,10 +12,26 @@
       <!-- 水表电表 -->
       <div class="left">
         <div class="electricity_meter">
+          <div class="electricty_title">
+            <p>电表能耗情况</p>
+            <el-tabs type="card" value="day" @tab-click="electrictyClick" style="height: 24px;">
+              <el-tab-pane label="日" name="day" class="is-active"></el-tab-pane>
+              <el-tab-pane label="周" name="week"></el-tab-pane>
+              <el-tab-pane label="月" name="month"></el-tab-pane>
+            </el-tabs>
+          </div>
           <div class="electricity_charts" ref="electricity_charts" style="width:100%; height:100%"></div>
         </div>
         <div class="water_meter">
-          <div class="water_charts" ref="water_charts" style="width:90%; height:90%"></div>
+          <div class="water_title">
+            <p>水表能耗情况</p>
+            <el-tabs type="card" value="day" @tab-click="waterClick" style="height: 24px;">
+              <el-tab-pane label="日" name="day"></el-tab-pane>
+              <el-tab-pane label="周" name="week"></el-tab-pane>
+              <el-tab-pane label="月" name="month"></el-tab-pane>
+            </el-tabs>
+          </div>
+          <div class="water_charts" ref="water_charts" style="width:100%; height:100%"></div>
         </div>
       </div>
       <div class="main">
@@ -132,34 +148,66 @@ export default {
         }
       ],
       // 电表数据
-      electricity: [
-        { value: 94, name: "电表一" },
-        { value: 43, name: "电表二" },
-        { value: 47, name: "电表三" },
-        { value: 53, name: "电表四" }
-      ],
+      electricity: {
+        day: [
+          { value: 94, name: "电表一" },
+          { value: 43, name: "电表二" },
+          { value: 47, name: "电表三" },
+          { value: 53, name: "电表四" }
+        ],
+        week: [
+          { value: 94, name: "电表一" },
+          { value: 43, name: "电表二" },
+          { value: 47, name: "电表三" },
+          { value: 53, name: "电表四" }
+        ],
+        month: [
+          { value: 94, name: "电表一" },
+          { value: 43, name: "电表二" },
+          { value: 47, name: "电表三" },
+          { value: 53, name: "水槽四" },
+          { value: 47, name: "水槽五" }
+        ]
+      },
       // 水表数据
-      water: [
-        { value: 335, name: "水槽一" },
-        { value: 310, name: "水槽二" },
-        { value: 234, name: "水槽三" },
-        { value: 135, name: "水槽四" },
-        { value: 1548, name: "水槽五" }
-      ],
+      water: {
+        day: [
+          { value: 12, name: "水槽一" },
+          { value: 13, name: "水槽二" },
+          { value: 17, name: "水槽三" },
+          { value: 23, name: "水槽四" },
+          { value: 17, name: "水槽五" }
+        ],
+        week: [
+          { value: 60, name: "水槽一" },
+          { value: 65, name: "水槽二" },
+          { value: 47, name: "水槽三" },
+          { value: 80, name: "水槽四" },
+          { value: 85, name: "水槽五" }
+        ],
+        month: [
+          { value: 200, name: "水槽一" },
+          { value: 240, name: "水槽二" },
+          { value: 247, name: "水槽三" },
+          { value: 280, name: "水槽四" },
+          { value: 285, name: "水槽五" }
+        ]
+      },
       dataAxis: ["29栋一层", "29栋二层", "30栋负一层", "30栋一层", "30栋二层"]
     };
   },
   components: {},
   created() {},
   mounted() {
-    this.drawElectricity();
-    this.drawWater();
+    this.drawElectricity(this.electricity.day);
+    this.drawWater(this.water.day);
   },
   methods: {
     //绘制电表
-    drawElectricity() {
+    drawElectricity(res) {
       // let vm = this;
       let myCharts = this.$echarts.init(this.$refs.electricity_charts);
+      myCharts.clear();
       let options = {
         tooltip: {
           trigger: "item",
@@ -179,7 +227,7 @@ export default {
             name: "访问来源",
             type: "pie",
             radius: "40%",
-            center: ["48%", "60%"],
+            center: ["45%", "48%"],
             label: {
               show: true,
               formatter: "{c}度  占比{d}%"
@@ -190,15 +238,16 @@ export default {
                 fontSize: "20"
               }
             },
-            data: this.electricity
+            data: res
           }
         ]
       };
       myCharts.setOption(options);
     },
     //绘制水表
-    drawWater() {
+    drawWater(res) {
       let myCharts = this.$echarts.init(this.$refs.water_charts);
+      myCharts.clear();
       let options = {
         tooltip: {
           trigger: "item",
@@ -218,7 +267,7 @@ export default {
             name: "访问来源",
             type: "pie",
             radius: ["25%", "40%"],
-            center: ["48%", "80%"],
+            center: ["45%", "56%"],
             label: {
               show: true,
               formatter: "{c}吨  占比{d}%"
@@ -230,11 +279,37 @@ export default {
                 fontWeight: "bold"
               }
             },
-            data: this.water
+            data: res
           }
         ]
       };
       myCharts.setOption(options);
+    },
+    //电表重绘
+    electrictyClick(tab) {
+      console.log(tab.name);
+      if (tab.name == "day") {
+        this.drawElectricity(this.electricity.day);
+      }
+      if (tab.name == "week") {
+        this.drawElectricity(this.electricity.week);
+      }
+      if (tab.name == "month") {
+        this.drawElectricity(this.electricity.month);
+      }
+    },
+    //水表重绘
+    waterClick(tab) {
+      console.log(tab.name);
+      if (tab.name == "day") {
+        this.drawWater(this.water.day);
+      }
+      if (tab.name == "week") {
+        this.drawWater(this.water.week);
+      }
+      if (tab.name == "month") {
+        this.drawWater(this.water.month);
+      }
     }
   }
 };
@@ -277,13 +352,34 @@ export default {
         border-radius: 10px;
         background: rgba(31, 47, 71, 0.5);
         margin-bottom: 10%;
-        text-align: center;
+        .electricty_title {
+          color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 36px;
+          p {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
       }
       .water_meter {
         width: 100%;
         height: 45%;
         border-radius: 10px;
         background: rgba(31, 47, 71, 0.5);
+        .water_title {
+          color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 36px;
+          p {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
       }
     }
     .main {
