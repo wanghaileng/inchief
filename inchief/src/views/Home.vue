@@ -20,7 +20,11 @@
               <el-radio-button label="electricty_year">年</el-radio-button>
             </el-radio-group>
           </div>
-          <div class="electricity_charts" ref="electricity_charts" style="width:90%; height:90%"></div>
+          <div
+            class="electricity_charts"
+            ref="electricity_charts"
+            style="margin:auto;width:80%; height:80%;"
+          ></div>
         </div>
         <div class="water_meter">
           <div class="water_title">
@@ -31,22 +35,43 @@
               <el-radio-button label="water_year">年</el-radio-button>
             </el-radio-group>
           </div>
-          <div class="water_charts" ref="water_charts" style="width:80%; height:90%"></div>
+          <div class="water_charts" ref="water_charts" style="margin:auto;width:80%; height:80%;"></div>
         </div>
       </div>
       <div class="main">
         <div class="main_top">
           <!-- 实景图 -->
           <div class="live_action">
-            <h3></h3>
-            <div></div>
+            <h3>实验室楼宇展示图</h3>
+            <div class="floor_piece">
+              <router-link class="lab_one" to="/">
+                29栋第1层
+                <span></span>
+              </router-link>
+              <router-link class="lab_two" to="/">
+                29栋第2层
+                <span></span>
+              </router-link>
+              <router-link class="lab_three" to="about">
+                30栋负1层
+                <span></span>
+              </router-link>
+              <router-link class="lab_four" to="/">
+                30栋第1层
+                <span></span>
+              </router-link>
+              <router-link class="lab_five" to="/">
+                30栋第2层
+                <span></span>
+              </router-link>
+            </div>
           </div>
           <!-- 温湿度情况 警报列表 -->
           <div class="main_right">
             <div class="humiture_meter">
-              <el-carousel :interval="5000000" arrow="never" height="270px">
+              <p>温湿度情况</p>
+              <el-carousel :interval="5000000" arrow="never" height="240px">
                 <el-carousel-item v-for="item in 5" :key="item">
-                  <h5>温湿度情况</h5>
                   <div class="humiture_table">
                     <div class="table_tittle">30栋负一层</div>
                     <div class="table_main">
@@ -67,7 +92,7 @@
               </el-carousel>
             </div>
             <div class="alarm">
-              <h5>警报列表</h5>
+              <p>警报列表</p>
               <div class="alarm_list">
                 <el-table :data="alarm" stripe style="width: 100%" height="210px">
                   <el-table-column prop="time" label="时间" width="60"></el-table-column>
@@ -175,11 +200,27 @@ export default {
       water: [240, 200, 160, 120, 280],
       dataAxis: ["29栋一层", "29栋二层", "30栋负一层", "30栋一层", "30栋二层"],
       electricty_time: "electricty_day",
-      water_time: "water_day"
+      water_time: "water_day",
+      visible: false
     };
   },
   components: {},
-  created() {},
+  created() {
+    // let ajax = new XMLHttpRequest();
+    // ajax.open("get", "http://sys.iot.bsdhjbh.com/monitor/cameraList");
+    // ajax.send();
+    // ajax.onreadystatechange = function() {
+    //   if (ajax.readyState === 4 && ajax.status === 200) {
+    //     console.log(ajax.responseText);
+    //   }
+    // };
+    // let that = this;
+    //发送使用请求
+    // let url = "http://sys.iot.bsdhjbh.com/monitor/cameraList";
+    // this.$jsonp(url, {}).then(res => {
+    //   console.log(res.data);
+    // });
+  },
   mounted() {
     this.drawElectricity();
     this.drawWater();
@@ -380,35 +421,89 @@ export default {
         height: 71%;
         border-radius: 10px;
         padding-bottom: 12px;
+        //实景样式
         .live_action {
           width: 55%;
           height: 100%;
+          h3 {
+            color: #fff;
+            font-weight: 400;
+          }
           > div {
             width: 100%;
             height: 90%;
-            margin-top: 128px;
+            margin-top: 100px;
             background: url(../assets/images/live-action.png) no-repeat;
             background-size: 100% 75%;
+          }
+          .floor_piece {
+            position: relative;
+            > a {
+              position: absolute;
+              text-align: center;
+              line-height: 70px;
+              width: 120px;
+              height: 70px;
+              color: #fff;
+              background: rgba(34, 123, 172, 0.7);
+              border-radius: 10px;
+              span {
+                display: inline-block;
+                position: absolute;
+                width: 0;
+                height: 0;
+                border-top: 12px solid rgba(34, 123, 172, 0.7);
+                border-right: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+                border-left: 8px solid transparent;
+                bottom: -20px;
+                right: 20%;
+              }
+            }
+            .lab_one {
+              left: 2%;
+              bottom: 42%;
+            }
+            .lab_two {
+              left: 24%;
+              top: 26%;
+            }
+            .lab_three {
+              right: 0%;
+              top: 24%;
+            }
+            .lab_four {
+              right: 22%;
+              top: 30%;
+            }
+            .lab_five {
+              right: 34%;
+              top: 10%;
+            }
           }
         }
         .main_right {
           width: 40%;
+          margin-bottom: 10px;
           > div {
-            height: 45%;
+            height: 48%;
             border-radius: 10px;
             background: rgba(31, 47, 71, 0.5);
-            margin-bottom: 10%;
           }
           // 温湿度样式
           .humiture_meter {
-            h5 {
+            margin-bottom: 20px;
+            padding-top: 6px;
+            p {
+              font-size: 16px;
+              font-weight: 400;
               color: #fff;
-              margin: 12px 0 6px 32px;
+              margin: 12px 0 10px 32px;
             }
             .humiture_table {
               display: flex;
               justify-content: space-evenly;
-              padding: 0 16px 0 15px;
+              padding: 0 16px;
               .table_tittle {
                 width: 60px;
                 height: 210px;
@@ -442,9 +537,11 @@ export default {
           // 警报样式
           .alarm {
             padding-top: 6px;
-            h5 {
+            p {
+              font-size: 16px;
+              font-weight: 400;
               color: #fff;
-              margin: 12px 0 6px 32px;
+              margin: 12px 0 10px 32px;
             }
             .alarm_list {
               width: 90%;
@@ -478,11 +575,11 @@ export default {
           .video_list {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
+            align-content: space-between;
             align-items: center;
             padding: 5px 60px;
             img {
-              margin: 10px;
+              margin: 10px 24px;
             }
           }
           ul {

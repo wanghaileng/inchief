@@ -101,7 +101,7 @@ a:hover {
 .el-table {
     color           : #fff;
     background-color: #223757;
-    font-size       : 14px;
+    font-size       : 12px;
 }
 
 .el-table td {
@@ -109,7 +109,7 @@ a:hover {
 }
 
 .el-table thead th {
-    padding: 8px 0;
+    padding: 6px 0;
 }
 
 /* 水电表 日周月 选中样式 */

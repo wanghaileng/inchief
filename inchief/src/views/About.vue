@@ -28,15 +28,15 @@
           <!-- 右侧温湿度表及警报列表 -->
           <div class="main_right">
             <div class="humiture_meter">
-              <el-carousel :interval="5000000" arrow="never" height="270px">
+              <p>温湿度情况</p>
+              <el-carousel :interval="5000000" arrow="never" height="240px">
                 <el-carousel-item v-for="item in 5" :key="item">
-                  <h5>温湿度情况</h5>
                   <div class="humiture_line"></div>
                 </el-carousel-item>
               </el-carousel>
             </div>
             <div class="alarm">
-              <h5>警报列表</h5>
+              <p>警报列表</p>
               <div class="alarm_list">
                 <el-table :data="alarm" stripe style="width: 100%" height="210px">
                   <el-table-column prop="time" label="时间" width="60"></el-table-column>
@@ -318,7 +318,8 @@ export default {
           }
           // 温湿度样式
           .humiture_meter {
-            h5 {
+            padding-top: 6px;
+            p {
               color: #fff;
               margin: 12px 0 6px 32px;
             }
@@ -359,7 +360,7 @@ export default {
           // 报警样式
           .alarm {
             padding-top: 6px;
-            h5 {
+            p {
               color: #fff;
               margin: 12px 0 6px 32px;
             }

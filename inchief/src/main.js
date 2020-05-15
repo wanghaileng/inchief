@@ -8,6 +8,10 @@ Vue.config.productionTip = false
 //引入二charts
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts
+
+import VueJsonp from 'vue-jsonp'
+Vue.use(VueJsonp)
+
 //引入iview UI框架
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';   // 使用 CSS
