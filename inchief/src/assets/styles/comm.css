@@ -99,9 +99,9 @@ a:hover {
 
 /* 修改表字体颜色 */
 .el-table {
-    color    : #fff;
+    color           : #fff;
     background-color: #223757;
-    font-size: 14px;
+    font-size       : 14px;
 }
 
 .el-table td {
@@ -110,4 +110,22 @@ a:hover {
 
 .el-table thead th {
     padding: 8px 0;
+}
+
+/* 水电表 日周月 选中样式 */
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+    color           : #FFF;
+    background-color: rgba(25, 145, 235, 1);
+    border-color    : #409EFF;
+    box-shadow      : -1px 0 0 0 #409EFF;
+}
+.el-radio-button:first-child .el-radio-button__inner{
+    border: 0;
+}
+/* 水电表 日周月 默认样式 */
+.el-radio-button__inner {
+    background: rgba(34, 55, 87, 1);
+    color     : #fff;
+    padding   : 5px 12px;
+    border    : 0
 }

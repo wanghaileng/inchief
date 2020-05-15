@@ -1,26 +1,47 @@
 <template>
   <div id="home">
     <div class="top">
+      <!-- 顶部 导航栏 -->
       <div class="title">
         <h3>实验室检测平台</h3>
+        <p></p>
       </div>
       <div class="nav"></div>
     </div>
     <div class="content">
+      <!-- 水表 电表 -->
       <div class="left">
         <div class="electricity_meter">
-          <div class="electricity_charts" ref="electricity_charts" style="width:100%; height:100%"></div>
+          <div class="electricty_title">
+            <p>电表能耗情况</p>
+            <el-radio-group v-model="electricty_time">
+              <el-radio-button label="electricty_day">日</el-radio-button>
+              <el-radio-button label="electricty_week">周</el-radio-button>
+              <el-radio-button label="electricty_year">年</el-radio-button>
+            </el-radio-group>
+          </div>
+          <div class="electricity_charts" ref="electricity_charts" style="width:90%; height:90%"></div>
         </div>
         <div class="water_meter">
-          <div class="water_charts" ref="water_charts" style="width:90%; height:90%"></div>
+          <div class="water_title">
+            <p>水表能耗情况</p>
+            <el-radio-group v-model="water_time">
+              <el-radio-button label="water_day">日</el-radio-button>
+              <el-radio-button label="water_week">周</el-radio-button>
+              <el-radio-button label="water_year">年</el-radio-button>
+            </el-radio-group>
+          </div>
+          <div class="water_charts" ref="water_charts" style="width:80%; height:90%"></div>
         </div>
       </div>
       <div class="main">
         <div class="main_top">
+          <!-- 实景图 -->
           <div class="live_action">
             <h3></h3>
             <div></div>
           </div>
+          <!-- 温湿度情况 警报列表 -->
           <div class="main_right">
             <div class="humiture_meter">
               <el-carousel :interval="5000000" arrow="never" height="270px">
@@ -37,8 +58,8 @@
                         height="210px"
                       >
                         <el-table-column prop="date" align="center" label="实验室名称" width="150"></el-table-column>
-                        <el-table-column prop="name" align="center" label="温度" width="100"></el-table-column>
-                        <el-table-column prop="address" align="center" label="湿度" width="100"></el-table-column>
+                        <el-table-column prop="name" align="center" label="温度" width="120"></el-table-column>
+                        <el-table-column prop="address" align="center" label="湿度" width="120"></el-table-column>
                       </el-table>
                     </div>
                   </div>
@@ -59,6 +80,7 @@
             </div>
           </div>
         </div>
+        <!-- 监控列表 -->
         <div class="video_monitoring">
           <p>实时现场监控</p>
           <el-carousel :interval="10000" arrow="always" height="160px">
@@ -87,6 +109,7 @@
 export default {
   data() {
     return {
+      // 温湿度数据
       tableData: [
         {
           date: "分析室一",
@@ -115,6 +138,7 @@ export default {
           address: "62.65"
         }
       ],
+      // 警报数据
       alarm: [
         {
           time: "09:23",
@@ -145,12 +169,17 @@ export default {
           alarm: "温度超标"
         }
       ],
+      // 电表数据
       electricity: [99, 50, 60, 20, 76],
+      // 水表数据
       water: [240, 200, 160, 120, 280],
-      dataAxis: ["29栋一层", "29栋二层", "30栋负一层", "30栋一层", "30栋二层"]
+      dataAxis: ["29栋一层", "29栋二层", "30栋负一层", "30栋一层", "30栋二层"],
+      electricty_time: "electricty_day",
+      water_time: "water_day"
     };
   },
   components: {},
+  created() {},
   mounted() {
     this.drawElectricity();
     this.drawWater();
@@ -162,9 +191,6 @@ export default {
       let dataShadow = [];
       let myCharts = this.$echarts.init(this.$refs.electricity_charts);
       let options = {
-        title: {
-          text: "电表能耗情况"
-        },
         xAxis: {
           data: this.dataAxis,
           axisLabel: {
@@ -220,9 +246,6 @@ export default {
       var dataShadow = [];
       let myCharts = this.$echarts.init(this.$refs.water_charts);
       let options = {
-        title: {
-          text: "水表能耗情况"
-        },
         yAxis: {
           data: this.dataAxis,
           axisLine: {
@@ -257,7 +280,6 @@ export default {
         series: [
           {
             type: "bar",
-            barGap: "-100%",
             barCategoryGap: "40%",
             data: dataShadow
           },
@@ -285,6 +307,7 @@ export default {
   height: 100%;
   background: url(../assets/images/background_one.png) no-repeat;
   background-size: 100% 100%;
+  // 顶部样式
   .top {
     .title {
       height: 48px;
@@ -303,6 +326,7 @@ export default {
     height: 86%;
     display: flex;
     justify-content: space-evenly;
+    // 水电表样式
     .left {
       display: flex;
       flex-direction: row;
@@ -316,13 +340,34 @@ export default {
         border-radius: 10px;
         background: rgba(31, 47, 71, 0.5);
         margin-bottom: 10%;
-        text-align: center;
+        .electricty_title {
+          color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 36px;
+          p {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
       }
       .water_meter {
         width: 100%;
         height: 45%;
         border-radius: 10px;
         background: rgba(31, 47, 71, 0.5);
+        .water_title {
+          color: #ffff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 15px 36px;
+          p {
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
       }
     }
     .main {
@@ -354,6 +399,7 @@ export default {
             background: rgba(31, 47, 71, 0.5);
             margin-bottom: 10%;
           }
+          // 温湿度样式
           .humiture_meter {
             h5 {
               color: #fff;
@@ -393,6 +439,7 @@ export default {
               }
             }
           }
+          // 警报样式
           .alarm {
             padding-top: 6px;
             h5 {
@@ -407,6 +454,7 @@ export default {
           }
         }
       }
+      // 监控样式
       .video_monitoring {
         height: 24%;
         border-radius: 10px;
