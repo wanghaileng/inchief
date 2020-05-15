@@ -261,9 +261,9 @@ export default {
             type: "bar",
             itemStyle: {
               color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#4cbcfa" },
+                { offset: 0, color: "#4BBBF6" },
                 { offset: 0.5, color: "#2c7ba6" },
-                { offset: 1, color: "#183645" }
+                { offset: 1, color: "rgba(41, 115, 155,0)" }
               ])
             },
             data: res
@@ -302,6 +302,9 @@ export default {
           axisTick: {
             show: false
           },
+          splitLine: {
+            show: false
+          },
           axisLabel: {
             textStyle: {
               color: "#fff"
@@ -317,10 +320,10 @@ export default {
           {
             type: "bar",
             itemStyle: {
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "#1e2d3b" },
-                { offset: 0.5, color: "#188df0" },
-                { offset: 1, color: "#c165d1" }
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                { offset: 0, color: "rgba(160, 95, 181,0)" },
+                { offset: 0.5, color: "#564477" },
+                { offset: 1, color: "#BF65D0" }
               ])
             },
             data: res
