@@ -14,11 +14,11 @@
         <div class="electricity_meter">
           <div class="electricty_title">
             <p>电表能耗情况</p>
-            <el-radio-group v-model="electricty_time">
-              <el-radio-button label="electricty_day">日</el-radio-button>
-              <el-radio-button label="electricty_week">周</el-radio-button>
-              <el-radio-button label="electricty_year">年</el-radio-button>
-            </el-radio-group>
+            <el-tabs type="card" value="day" @tab-click="electrictyClick" style="height: 24px;">
+              <el-tab-pane label="日" name="day" class="is-active"></el-tab-pane>
+              <el-tab-pane label="周" name="week"></el-tab-pane>
+              <el-tab-pane label="月" name="month"></el-tab-pane>
+            </el-tabs>
           </div>
           <div
             class="electricity_charts"
@@ -29,13 +29,13 @@
         <div class="water_meter">
           <div class="water_title">
             <p>水表能耗情况</p>
-            <el-radio-group v-model="water_time">
-              <el-radio-button label="water_day">日</el-radio-button>
-              <el-radio-button label="water_week">周</el-radio-button>
-              <el-radio-button label="water_year">年</el-radio-button>
-            </el-radio-group>
+            <el-tabs type="card" value="day" @tab-click="waterClick" style="height: 24px;">
+              <el-tab-pane label="日" name="day"></el-tab-pane>
+              <el-tab-pane label="周" name="week"></el-tab-pane>
+              <el-tab-pane label="月" name="month"></el-tab-pane>
+            </el-tabs>
           </div>
-          <div class="water_charts" ref="water_charts" style="margin:auto;width:80%; height:80%;"></div>
+          <div class="water_charts" ref="water_charts" style="margin:auto;width:85%; height:80%;"></div>
         </div>
       </div>
       <div class="main">
@@ -109,18 +109,9 @@
         <div class="video_monitoring">
           <p>实时现场监控</p>
           <el-carousel :interval="10000" arrow="always" height="160px">
-            <el-carousel-item v-for="item in 3" :key="item">
+            <el-carousel-item v-for="item in video_list" :key="item">
               <div class="video_list">
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
-                <img src="../assets/images/monitoring_two.png" alt style="width:16%;height:65px" />
+                <img src="item.picUrl" alt style="width:16%;height:65px" />
               </div>
             </el-carousel-item>
           </el-carousel>
@@ -171,66 +162,64 @@ export default {
           eqname: "分析室一",
           eqtype: "生命科技",
           alarm: "温度超标"
-        },
-        {
-          time: "09:23",
-          name: "30栋一层",
-          eqname: "分析室一",
-          eqtype: "生命科技",
-          alarm: "温度超标"
-        },
-        {
-          time: "09:23",
-          name: "30栋一层",
-          eqname: "分析室一",
-          eqtype: "生命科技",
-          alarm: "温度超标"
-        },
-        {
-          time: "09:23",
-          name: "30栋一层",
-          eqname: "分析室一",
-          eqtype: "生命科技",
-          alarm: "温度超标"
         }
       ],
       // 电表数据
-      electricity: [99, 50, 60, 20, 76],
+      electricity: {
+        day: [5, 8, 6, 7, 10],
+        week: [20, 32, 30, 36, 40],
+        month: [80, 128, 120, 144, 160]
+      },
       // 水表数据
-      water: [240, 200, 160, 120, 280],
+      water: {
+        day: [5, 8, 6, 7, 10],
+        week: [20, 32, 30, 36, 40],
+        month: [80, 128, 120, 144, 160]
+      },
       dataAxis: ["29栋一层", "29栋二层", "30栋负一层", "30栋一层", "30栋二层"],
-      electricty_time: "electricty_day",
-      water_time: "water_day",
-      visible: false
+      visible: false,
+      video_list: []
     };
   },
   components: {},
-  created() {
-    // let ajax = new XMLHttpRequest();
-    // ajax.open("get", "http://sys.iot.bsdhjbh.com/monitor/cameraList");
-    // ajax.send();
-    // ajax.onreadystatechange = function() {
-    //   if (ajax.readyState === 4 && ajax.status === 200) {
-    //     console.log(ajax.responseText);
-    //   }
-    // };
-    // let that = this;
-    //发送使用请求
-    // let url = "http://sys.iot.bsdhjbh.com/monitor/cameraList";
-    // this.$jsonp(url, {}).then(res => {
-    //   console.log(res.data);
-    // });
+  async created() {
+    let that = this;
+    //发送警报接口
+    let ajax = new XMLHttpRequest();
+    ajax.open("get", "http://sys.iot.bsdhjbh.com/monitor/alarmList");
+    ajax.send();
+    ajax.onreadystatechange = function() {
+      if (ajax.readyState === 4 && ajax.status === 200) {
+        console.log(ajax.responseText);
+        that.alarm = ajax.responseText.data;
+      }
+    };
+    //摄像头列表
+    ajax = new XMLHttpRequest();
+    ajax.open("get", "http://sys.iot.bsdhjbh.com/monitor/cameraList");
+    ajax.send();
+    ajax.onreadystatechange = function() {
+      if (ajax.readyState === 4 && ajax.status === 200) {
+        console.log(that.video_list);
+        let res = ajax.responseText;
+        console.log(res.data);
+        if (res.code == 200) {
+          that.video_list = ajax.responseText.data;
+        }
+      }
+    };
   },
   mounted() {
-    this.drawElectricity();
-    this.drawWater();
+    this.drawElectricity(this.electricity.day);
+    this.drawWater(this.water.day);
   },
   methods: {
     //绘制电表
-    drawElectricity() {
+    drawElectricity(res) {
       // let vm = this;
       let dataShadow = [];
       let myCharts = this.$echarts.init(this.$refs.electricity_charts);
+      myCharts.clear();
       let options = {
         xAxis: {
           data: this.dataAxis,
@@ -276,16 +265,17 @@ export default {
                 { offset: 1, color: "#183645" }
               ])
             },
-            data: this.water
+            data: res
           }
         ]
       };
       myCharts.setOption(options);
     },
     //绘制水表
-    drawWater() {
+    drawWater(res) {
       var dataShadow = [];
       let myCharts = this.$echarts.init(this.$refs.water_charts);
+      myCharts.clear();
       let options = {
         yAxis: {
           data: this.dataAxis,
@@ -333,11 +323,37 @@ export default {
                 { offset: 1, color: "#c165d1" }
               ])
             },
-            data: this.water
+            data: res
           }
         ]
       };
       myCharts.setOption(options);
+    },
+    //电表重绘
+    electrictyClick(tab) {
+      console.log(tab.name);
+      if (tab.name == "day") {
+        this.drawElectricity(this.electricity.day);
+      }
+      if (tab.name == "week") {
+        this.drawElectricity(this.electricity.week);
+      }
+      if (tab.name == "month") {
+        this.drawElectricity(this.electricity.month);
+      }
+    },
+    //水表重绘
+    waterClick(tab) {
+      console.log(tab.name);
+      if (tab.name == "day") {
+        this.drawWater(this.water.day);
+      }
+      if (tab.name == "week") {
+        this.drawWater(this.water.week);
+      }
+      if (tab.name == "month") {
+        this.drawWater(this.water.month);
+      }
     }
   }
 };
